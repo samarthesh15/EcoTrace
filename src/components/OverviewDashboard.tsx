@@ -27,6 +27,7 @@ import {
   Zap,
   Tag
 } from "lucide-react";
+import cleanHorizon from "../assets/images/clean_horizon_1782071795759.jpg";
 
 interface OverviewDashboardProps {
   logs: FootprintLogEntry[];
@@ -118,7 +119,7 @@ export default function OverviewDashboard({
       <div className="relative overflow-hidden rounded-3xl border border-zinc-200/80 dark:border-white/10 shadow-sm dark:shadow-none h-48 flex items-center p-6 sm:p-8">
         <div className="absolute inset-0 w-full h-full z-0">
           <img 
-            src="/src/assets/images/clean_horizon_1782071795759.jpg" 
+            src={cleanHorizon} 
             alt="Eco horizon premium background" 
             className="w-full h-full object-cover opacity-90 dark:opacity-40 transition-opacity"
             referrerPolicy="no-referrer"

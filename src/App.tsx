@@ -22,6 +22,7 @@ import {
   Sun,
   Moon
 } from "lucide-react";
+import ecoCellularLeaf from "./assets/images/eco_cellular_leaf_1782071779621.jpg";
 
 // Initial baseline logs to give the user immediate interactive data in their dashboard
 const INITIAL_LOGS: FootprintLogEntry[] = [
@@ -268,7 +269,7 @@ export default function App() {
       {/* Decorative Premium Backdrop Image Layer */}
       <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0 opacity-[0.03] dark:opacity-[0.06] mix-blend-luminosity dark:mix-blend-overlay">
         <img 
-          src="/src/assets/images/eco_cellular_leaf_1782071779621.jpg" 
+          src={ecoCellularLeaf} 
           alt="" 
           className="w-full h-full object-cover" 
           referrerPolicy="no-referrer"
