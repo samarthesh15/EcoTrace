@@ -265,46 +265,62 @@ export default function App() {
           </div>
 
           {/* Tab Navigation Menu */}
-          <nav className="hidden md:flex items-center gap-1.5 text-xs font-mono">
+          <nav className="hidden md:flex items-center gap-1.5 text-xs font-mono" role="tablist" aria-label="EcoTrace Navigation Tabs">
             <button
+              id="tab-overview"
+              role="tab"
+              aria-selected={activeTab === "overview"}
+              aria-controls="application-main-view"
               onClick={() => setActiveTab("overview")}
-              className={`px-3.5 py-2 rounded-lg font-semibold flex items-center gap-1.5 transition-all duration-200 border cursor-pointer ${
+              className={`px-3.5 py-2 rounded-lg font-semibold flex items-center gap-1.5 transition-all duration-200 border cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
                 activeTab === "overview" 
                   ? "bg-white/5 border-white/15 text-[#C4FF00]" 
-                  : "bg-transparent border-transparent text-white/50 hover:text-white hover:border-white/5"
+                  : "bg-transparent border-transparent text-zinc-400 hover:text-white hover:border-white/5"
               }`}
             >
               <BarChart2 className="w-4 h-4" />
               Overview Hub
             </button>
             <button
+              id="tab-calculator"
+              role="tab"
+              aria-selected={activeTab === "calculator"}
+              aria-controls="application-main-view"
               onClick={() => setActiveTab("calculator")}
-              className={`px-3.5 py-2 rounded-lg font-semibold flex items-center gap-1.5 transition-all duration-200 border cursor-pointer ${
+              className={`px-3.5 py-2 rounded-lg font-semibold flex items-center gap-1.5 transition-all duration-200 border cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
                 activeTab === "calculator" 
                   ? "bg-white/5 border-white/15 text-[#C4FF00]" 
-                  : "bg-transparent border-transparent text-white/50 hover:text-white"
+                  : "bg-transparent border-transparent text-zinc-400 hover:text-white"
               }`}
             >
               <Calculator className="w-4 h-4" />
               Interactive Calculator
             </button>
             <button
+              id="tab-actions"
+              role="tab"
+              aria-selected={activeTab === "actions"}
+              aria-controls="application-main-view"
               onClick={() => setActiveTab("actions")}
-              className={`px-3.5 py-2 rounded-lg font-semibold flex items-center gap-1.5 transition-all duration-200 border cursor-pointer ${
+              className={`px-3.5 py-2 rounded-lg font-semibold flex items-center gap-1.5 transition-all duration-200 border cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
                 activeTab === "actions" 
                   ? "bg-white/5 border-white/15 text-[#C4FF00]" 
-                  : "bg-transparent border-transparent text-white/50 hover:text-white"
+                  : "bg-transparent border-transparent text-zinc-400 hover:text-white"
               }`}
             >
               <CheckSquare className="w-4 h-4" />
               Action Catalog
             </button>
             <button
+              id="tab-ai"
+              role="tab"
+              aria-selected={activeTab === "ai"}
+              aria-controls="application-main-view"
               onClick={() => setActiveTab("ai")}
-              className={`px-3.5 py-2 rounded-lg font-semibold flex items-center gap-1.5 transition-all duration-200 border cursor-pointer ${
+              className={`px-3.5 py-2 rounded-lg font-semibold flex items-center gap-1.5 transition-all duration-200 border cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
                 activeTab === "ai" 
                   ? "bg-white/5 border-white/15 text-[#C4FF00]" 
-                  : "bg-transparent border-transparent text-white/50 hover:text-white"
+                  : "bg-transparent border-transparent text-zinc-400 hover:text-white"
               }`}
             >
               <Sparkles className="w-4 h-4 text-[#C4FF00]" />
@@ -317,7 +333,8 @@ export default function App() {
             <button
               onClick={handleResetLedgerToDefaultData}
               title="Reset metrics to baseline scenario"
-              className="p-2 text-white/40 hover:text-white bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+              aria-label="Reset metrics to baseline scenario"
+              className="p-2 text-zinc-400 hover:text-white bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
             >
               <RotateCcw className="w-4 h-4" />
             </button>
@@ -329,28 +346,40 @@ export default function App() {
         </div>
 
         {/* Mobile Tab bar */}
-        <div className="md:hidden border-t border-white/10 bg-[#0A0A0A] grid grid-cols-4 text-center text-[10px] w-full font-mono font-semibold">
+        <div className="md:hidden border-t border-white/10 bg-[#0A0A0A] grid grid-cols-4 text-center text-[10px] w-full font-mono font-semibold" role="tablist" aria-label="EcoTrace Mobile Navigation Tabs">
           <button 
+            role="tab"
+            aria-selected={activeTab === "overview"}
+            aria-controls="application-main-view"
             onClick={() => setActiveTab("overview")} 
-            className={`py-2.5 border-b-2 cursor-pointer transition-colors ${activeTab === "overview" ? "border-[#C4FF00] text-[#C4FF00] bg-white/5" : "border-transparent text-white/45"}`}
+            className={`py-2.5 border-b-2 cursor-pointer transition-colors focus:outline-none focus-visible:bg-white/10 ${activeTab === "overview" ? "border-[#C4FF00] text-[#C4FF00] bg-white/5" : "border-transparent text-zinc-400"}`}
           >
             Overview
           </button>
           <button 
+            role="tab"
+            aria-selected={activeTab === "calculator"}
+            aria-controls="application-main-view"
             onClick={() => setActiveTab("calculator")} 
-            className={`py-2.5 border-b-2 cursor-pointer transition-colors ${activeTab === "calculator" ? "border-[#C4FF00] text-[#C4FF00] bg-white/5" : "border-transparent text-white/45"}`}
+            className={`py-2.5 border-b-2 cursor-pointer transition-colors focus:outline-none focus-visible:bg-white/10 ${activeTab === "calculator" ? "border-[#C4FF00] text-[#C4FF00] bg-white/5" : "border-transparent text-zinc-400"}`}
           >
             Calculator
           </button>
           <button 
+            role="tab"
+            aria-selected={activeTab === "actions"}
+            aria-controls="application-main-view"
             onClick={() => setActiveTab("actions")} 
-            className={`py-2.5 border-b-2 cursor-pointer transition-colors ${activeTab === "actions" ? "border-[#C4FF00] text-[#C4FF00] bg-white/5" : "border-transparent text-white/45"}`}
+            className={`py-2.5 border-b-2 cursor-pointer transition-colors focus:outline-none focus-visible:bg-white/10 ${activeTab === "actions" ? "border-[#C4FF00] text-[#C4FF00] bg-white/5" : "border-transparent text-zinc-400"}`}
           >
             Actions
           </button>
           <button 
+            role="tab"
+            aria-selected={activeTab === "ai"}
+            aria-controls="application-main-view"
             onClick={() => setActiveTab("ai")} 
-            className={`py-2.5 border-b-2 cursor-pointer transition-all ${activeTab === "ai" ? "border-[#C4FF00] text-[#C4FF00] bg-white/5" : "border-transparent text-white/45"}`}
+            className={`py-2.5 border-b-2 cursor-pointer transition-all focus:outline-none focus-visible:bg-white/10 ${activeTab === "ai" ? "border-[#C4FF00] text-[#C4FF00] bg-white/5" : "border-transparent text-zinc-400"}`}
           >
             AI Custom
           </button>

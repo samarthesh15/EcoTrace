@@ -114,99 +114,104 @@ export default function OverviewDashboard({
 
   return (
     <div className="space-y-8" id="overview-dashboard-container">
-      {/* Hero Showcase with Giant Impact Coefficient */}
-      <div className="p-8 md:p-12 bg-[#0A0A0A] border border-white/10 rounded-3xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-8">
-        <div className="space-y-2 relative z-10 max-w-xl">
-          <div className="text-xs uppercase tracking-[0.3em] text-white/50">Impact Coefficient</div>
-          <div className="flex flex-wrap items-baseline gap-4 md:gap-6">
-            <span className="text-5xl sm:text-7xl lg:text-8xl font-black text-white tracking-widest leading-none font-mono">
-              {footprintInTons}
-            </span>
-            <div className="flex flex-col">
-              <span className="text-2xl sm:text-3xl font-serif italic text-[#C4FF00]">Metric Tons</span>
-              <span className="text-xs text-white/40 tracking-tighter font-mono">CO2e / Yearly Account Profile</span>
+      {/* Premium Bento Grid: Separates the Metric Metric Tons display from Goal Controls to prevent crowding */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Metric Impact Card */}
+        <div className="lg:col-span-7 p-8 bg-[#0A0A0A] border border-zinc-800 rounded-3xl relative overflow-hidden flex flex-col justify-between min-h-[220px]">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#C4FF00]/5 rounded-full blur-2xl pointer-events-none" />
+          <div className="space-y-1 relative z-10">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-zinc-400 font-mono font-bold block">Yearly Impact Coefficient</span>
+            <div className="flex flex-wrap items-baseline gap-3 pt-2">
+              <span className="text-5xl sm:text-7xl font-sans font-black text-white tracking-tight leading-none">
+                {footprintInTons}
+              </span>
+              <div className="flex flex-col">
+                <span className="text-xl sm:text-2xl font-serif italic text-[#C4FF00] font-semibold">Metric Tons</span>
+                <span className="text-[10px] text-zinc-400 font-mono uppercase tracking-wider">CO2e / ACCOUNT PROFILE</span>
+              </div>
             </div>
           </div>
-          <p className="text-xs text-white/60 leading-relaxed pt-2 max-w-md">
-            This metric reflects your live aggregated greenhouse ledger footprint. Integrated factors dynamically compute real-world physics scenarios.
+          <p className="text-xs text-zinc-300 leading-relaxed font-sans mt-4 max-w-md relative z-10">
+            This live score aggregates your carbon ledger inputs. Calculated variables align dynamically with authenticated greenhouse metrics.
           </p>
         </div>
 
-        <div className="relative z-10 shrink-0 flex flex-col justify-between h-full bg-white/5 border border-white/10 rounded-2xl p-6 md:w-80">
+        {/* Goal Progress Card */}
+        <div className="lg:col-span-5 p-8 bg-[#0A0A0A] border border-zinc-800 rounded-3xl relative overflow-hidden flex flex-col justify-between min-h-[220px]">
           <div className="space-y-4">
             <div className="flex justify-between items-center border-b border-white/5 pb-2">
-              <span className="text-[10px] uppercase tracking-widest text-[#C4FF00] font-mono">System Integrity</span>
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-[10px] uppercase tracking-widest text-[#C4FF00] font-mono font-black">Environmental Target</span>
+              <div className="flex items-center gap-1.5" aria-hidden="true">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[9px] uppercase font-mono tracking-widest text-zinc-400">Ledger Verified</span>
+              </div>
             </div>
             
-            <div className="space-y-1">
-              <div className="text-[10px] uppercase tracking-widest text-white/40 font-mono">Active Reduction Goal</div>
+            <div className="space-y-2">
               <div className="flex justify-between items-baseline">
-                <span className="text-2xl font-serif italic text-white">{goal.targetPercentage}% Target</span>
-                <span className="text-[11px] font-mono text-white/50">{progressPercentage}% Complete</span>
+                <span className="text-lg font-serif italic text-white font-medium">{goal.targetPercentage}% Reduction Goal</span>
+                <span className="text-[11px] font-mono text-zinc-300 bg-white/5 px-2 py-0.5 rounded" aria-live="polite">
+                  {progressPercentage}% Achieved
+                </span>
               </div>
-              <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden mt-1">
+              <div className="w-full bg-zinc-800 h-2 rounded-full overflow-hidden mt-1" aria-label="Goal progress map">
                 <div 
-                  className="bg-[#C4FF00] h-full rounded-full transition-all duration-500" 
+                  className="bg-[#C4FF00] h-full rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(196,255,0,0.3)]" 
                   style={{ width: `${progressPercentage}%` }}
                 />
               </div>
             </div>
-
-            <button 
-              onClick={() => {
-                const updated = prompt("Set new CO2 reduction goal (1-100%):", goal.targetPercentage.toString());
-                if (updated && !isNaN(Number(updated))) {
-                  onUpdateGoal(Math.max(1, Math.min(100, Number(updated))));
-                }
-              }}
-              className="w-full py-2 bg-white/5 hover:bg-[#C4FF00] text-white hover:text-black border border-white/10 hover:border-transparent rounded-lg text-xs font-mono font-bold tracking-wider uppercase transition-all cursor-pointer"
-            >
-              Adjust Target
-            </button>
           </div>
-        </div>
 
-        {/* Subtle decorative watermark */}
-        <div className="absolute -bottom-10 -right-10 text-[120px] font-black italic font-serif text-white/[0.02] pointer-events-none select-none">
-          VERDE
+          <button 
+            onClick={() => {
+              const updated = prompt("Set new CO2 reduction goal (1-100%):", goal.targetPercentage.toString());
+              if (updated && !isNaN(Number(updated))) {
+                onUpdateGoal(Math.max(1, Math.min(100, Number(updated))));
+              }
+            }}
+            className="w-full mt-4 py-2 bg-white/5 hover:bg-[#C4FF00] text-zinc-200 hover:text-black border border-white/10 hover:border-transparent rounded-lg text-xs font-mono font-bold tracking-wider uppercase transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] focus-visible:ring-[#C4FF00] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            aria-label="Adjust current carbon reduction target percentage"
+          >
+            Adjust Target
+          </button>
         </div>
       </div>
 
       {/* Primary Dynamic Metrics Header Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div 
-          className="bg-[#0A0A0A] p-6 rounded-2xl border border-white/10 flex flex-col justify-between space-y-4"
+          className="bg-[#0A0A0A] p-6 rounded-2xl border border-zinc-800 flex flex-col justify-between space-y-4"
           id="stat-card-total-footprint"
         >
           <div>
-            <div className="flex justify-between items-center text-white/45">
-              <span className="text-[10px] font-mono tracking-widest uppercase">Projected Annual Weight</span>
+            <div className="flex justify-between items-center text-zinc-400">
+              <span className="text-[10px] font-mono tracking-widest uppercase font-bold">Projected Annual Weight</span>
               <Leaf className="w-4 h-4 text-[#C4FF00]" />
             </div>
             <h3 className="text-3xl font-mono text-white mt-3 font-semibold">
               {totalAnnualFootprint.toLocaleString()}
             </h3>
-            <span className="text-xs text-white/40 font-mono">kg CO2e / Year aggregate</span>
+            <span className="text-xs text-zinc-400 font-mono">kg CO2e / Year aggregate</span>
           </div>
-          <div className="text-xs text-white/50 leading-relaxed border-t border-white/5 pt-3">
+          <div className="text-xs text-zinc-300 leading-relaxed border-t border-zinc-800 pt-3">
             Target annual sum based on active calculator criteria & user log adjustments.
           </div>
         </div>
 
         <div 
-          className="bg-[#0A0A0A] p-6 rounded-2xl border border-white/10 flex flex-col justify-between space-y-4"
+          className="bg-[#0A0A0A] p-6 rounded-2xl border border-zinc-800 flex flex-col justify-between space-y-4"
           id="stat-card-weekly-savings"
         >
           <div>
-            <div className="flex justify-between items-center text-white/45">
-              <span className="text-[10px] font-mono tracking-widest uppercase">Active Weekly Offset</span>
+            <div className="flex justify-between items-center text-zinc-400">
+              <span className="text-[10px] font-mono tracking-widest uppercase font-bold">Active Weekly Offset</span>
               <TrendingDown className="w-4 h-4 text-[#C4FF00]" />
             </div>
             <h3 className="text-3xl font-mono text-[#C4FF00] mt-3 font-semibold">
               -{activeWeeklySavings.toFixed(1)}
             </h3>
-            <span className="text-xs text-white/45 font-mono">kg CO2e / Week reduction rate</span>
+            <span className="text-xs text-zinc-400 font-mono">kg CO2e / Week reduction rate</span>
           </div>
           <div className="text-[11px] text-[#C4FF00] bg-[#C4FF00]/5 border border-[#C4FF00]/15 p-2.5 rounded-lg leading-relaxed">
             🌿 Compounding dynamic savings of <strong className="font-mono font-bold">{(activeWeeklySavings * 52).toFixed(0)} kg CO2e</strong> per year is forecasted.
@@ -214,12 +219,12 @@ export default function OverviewDashboard({
         </div>
 
         <div 
-          className="bg-[#0A0A0A] p-6 rounded-2xl border border-white/10 flex flex-col justify-between space-y-4"
+          className="bg-[#0A0A0A] p-6 rounded-2xl border border-zinc-800 flex flex-col justify-between space-y-4"
           id="stat-card-climate-grade"
         >
           <div>
-            <div className="flex justify-between items-center text-white/45">
-              <span className="text-[10px] font-mono tracking-widest uppercase">Active Safety Grade</span>
+            <div className="flex justify-between items-center text-zinc-400">
+              <span className="text-[10px] font-mono tracking-widest uppercase font-bold">Active Safety Grade</span>
               <Sparkles className="w-4 h-4 text-[#C4FF00]" />
             </div>
             <div className="flex items-baseline gap-3 mt-3">
@@ -231,7 +236,7 @@ export default function OverviewDashboard({
               </span>
             </div>
           </div>
-          <p className="text-xs text-white/50 leading-relaxed border-t border-white/5 pt-3">
+          <p className="text-xs text-zinc-300 leading-relaxed border-t border-zinc-800 pt-3">
             Average global carbon footprint per person is ~4,800 kg/year. Lower values reflect safer ecological targets.
           </p>
         </div>
@@ -240,12 +245,12 @@ export default function OverviewDashboard({
       {/* Charts section */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6" id="charts-layout-section">
         {/* Footprint Category Breakdown Chart */}
-        <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-white/10 lg:col-span-8 flex flex-col justify-between">
+        <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-zinc-800 lg:col-span-8 flex flex-col justify-between">
           <div>
             <h3 className="text-base font-serif italic text-white tracking-wide mb-1 font-semibold">
               Global Source Breakdown Categories
             </h3>
-            <p className="text-[11px] text-white/45 font-mono uppercase mb-6 tracking-wider">Historical distribution analysis</p>
+            <p className="text-[11px] text-zinc-400 font-mono uppercase mb-6 tracking-wider">Historical distribution analysis</p>
           </div>
           <div className="h-72 w-full" id="responsive-recharts-container">
             {totalAnnualFootprint === 0 ? (
@@ -275,14 +280,14 @@ export default function OverviewDashboard({
         </div>
 
         {/* Quick Tips or AI mini coach box */}
-        <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-white/10 lg:col-span-4 flex flex-col justify-between space-y-6">
+        <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-zinc-800 lg:col-span-4 flex flex-col justify-between space-y-6">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <div>
                 <h3 className="text-base font-serif italic text-white tracking-wide font-semibold">
                   Active Audit Report
                 </h3>
-                <p className="text-[9px] font-mono text-white/40 uppercase">Environmental advice matrix</p>
+                <p className="text-[9px] font-mono text-zinc-400 uppercase font-bold">Environmental advice matrix</p>
               </div>
               <button
                 onClick={onTriggerAiCoach}
@@ -296,18 +301,18 @@ export default function OverviewDashboard({
 
             {aiReport ? (
               <div className="space-y-4" id="ai-coach-report-display">
-                <div className="bg-white/5 p-3.5 rounded-xl border border-white/10">
-                  <p className="text-xs text-white/80 leading-relaxed italic">
+                <div className="bg-white/5 p-3.5 rounded-xl border border-zinc-850">
+                  <p className="text-xs text-zinc-300 leading-relaxed italic">
                     "{aiReport.summary}"
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3 font-mono">
+                  <h4 className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-3 font-mono font-bold">
                     AI Curated Priorities
                   </h4>
                   <ul className="space-y-3">
                     {aiReport.customTips?.slice(0, 2).map((tip: any, index: number) => (
-                      <li key={index} className="flex gap-2.5 items-start text-xs text-white/80 border-b border-white/5 pb-2.5 last:border-0 last:pb-0">
+                      <li key={index} className="flex gap-2.5 items-start text-zinc-300 border-b border-zinc-850 pb-2.5 last:border-0 last:pb-0">
                         <div className="w-5 h-5 flex items-center justify-center rounded-md bg-[#C4FF00]/10 border border-[#C4FF00]/20 text-[#C4FF00] font-mono font-bold text-[10px] shrink-0 mt-0.5">
                           {index + 1}
                         </div>
@@ -350,13 +355,13 @@ export default function OverviewDashboard({
       </div>
 
       {/* Ledger History Listing */}
-      <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-white/10" id="ledger-history-listing">
+      <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-zinc-800" id="ledger-history-listing">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
           <div>
             <h3 className="text-base font-serif italic text-white tracking-wide font-semibold">
               Carbon Footprint ledger
             </h3>
-            <p className="text-xs text-white/45 mt-1 font-mono uppercase tracking-wider">
+            <p className="text-xs text-zinc-400 mt-1 font-mono uppercase tracking-wider">
               Active parameters generating your core greenhouse budget.
             </p>
           </div>
@@ -364,7 +369,8 @@ export default function OverviewDashboard({
           <div className="flex gap-2">
             <button
               onClick={() => setShowAddManual(!showAddManual)}
-              className="px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-zinc-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg flex items-center gap-1.5 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
+              aria-expanded={showAddManual}
             >
               <Plus className="w-3.5 h-3.5 text-[#C4FF00]" />
               Modify Ledger
@@ -374,37 +380,40 @@ export default function OverviewDashboard({
 
         {/* Adjustments Form Drawer */}
         {showAddManual && (
-          <form onSubmit={handleManualSubmit} className="bg-white/5 p-5 rounded-xl border border-white/10 mb-6 max-w-xl space-y-4">
+          <form onSubmit={handleManualSubmit} className="bg-zinc-900/50 p-5 rounded-xl border border-zinc-850 mb-6 max-w-xl space-y-4">
             <h4 className="text-xs uppercase tracking-widest font-mono font-bold text-[#C4FF00]">Add Footprint Modification</h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-[10px] text-white/40 uppercase font-mono font-bold mb-1.5">Item Label / Activity</label>
+                <label htmlFor="manual-label-input" className="block text-[10px] text-zinc-400 uppercase font-mono font-bold mb-1.5">Item Label / Activity</label>
                 <input 
+                  id="manual-label-input"
                   type="text" 
                   value={manualName} 
                   onChange={(e) => setManualName(e.target.value)} 
                   placeholder="e.g. Flight to Tokyo"
-                  className="w-full bg-[#050505] border border-white/10 text-white text-xs px-2.5 py-1.5 rounded-lg focus:outline-none focus:border-[#C4FF00]"
+                  className="w-full bg-[#050505] border border-zinc-800 text-white text-xs px-2.5 py-1.5 rounded-lg focus:outline-none focus:border-[#C4FF00] focus:ring-1 focus:ring-[#C4FF00]"
                   required
                 />
               </div>
               <div>
-                <label className="block text-[10px] text-white/40 uppercase font-mono font-bold mb-1.5">Carbon Footprint (kg CO2e)</label>
+                <label htmlFor="manual-footprint-input" className="block text-[10px] text-zinc-400 uppercase font-mono font-bold mb-1.5">Carbon (kg CO2e)</label>
                 <input 
+                  id="manual-footprint-input"
                   type="number" 
                   value={manualCo2} 
                   onChange={(e) => setManualCo2(e.target.value)} 
                   placeholder="e.g. 125.4"
-                  className="w-full bg-[#050505] border border-white/10 text-white text-xs px-2.5 py-1.5 rounded-lg focus:outline-none focus:border-[#C4FF00]"
+                  className="w-full bg-[#050505] border border-zinc-800 text-white text-xs px-2.5 py-1.5 rounded-lg focus:outline-none focus:border-[#C4FF00] focus:ring-1 focus:ring-[#C4FF00]"
                   required
                 />
               </div>
               <div>
-                <label className="block text-[10px] text-white/40 uppercase font-mono font-bold mb-1.5">Source Category</label>
+                <label htmlFor="manual-category-select" className="block text-[10px] text-zinc-400 uppercase font-mono font-bold mb-1.5">Source Category</label>
                 <select
+                  id="manual-category-select"
                   value={manualCategory}
                   onChange={(e) => setManualCategory(e.target.value as CarbonCategory)}
-                  className="w-full bg-[#050505] border border-white/10 text-white text-xs px-2.5 py-1.5 rounded-lg focus:outline-none focus:border-[#C4FF00]"
+                  className="w-full bg-[#050505] border border-zinc-800 text-white text-xs px-2.5 py-1.5 rounded-lg focus:outline-none focus:border-[#C4FF00] focus:ring-1 focus:ring-[#C4FF00]"
                 >
                   <option value="transport">Transport (Commutes, Flights)</option>
                   <option value="energy">Energy & utilities</option>
@@ -417,13 +426,13 @@ export default function OverviewDashboard({
               <button 
                 type="button" 
                 onClick={() => setShowAddManual(false)} 
-                className="px-3.5 py-1.5 bg-transparent text-white/60 hover:text-white border border-transparent rounded-lg cursor-pointer"
+                className="px-3.5 py-1.5 bg-transparent text-zinc-400 hover:text-white border border-transparent rounded-lg cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-zinc-400"
               >
                 Cancel
               </button>
               <button 
                 type="submit" 
-                className="px-4 py-1.5 bg-[#C4FF00] hover:bg-white text-black font-bold uppercase rounded-lg cursor-pointer transition-colors"
+                className="px-4 py-1.5 bg-[#C4FF00] hover:bg-white text-black font-bold uppercase rounded-lg cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 Insert Entry
               </button>
@@ -432,21 +441,21 @@ export default function OverviewDashboard({
         )}
 
         {/* Ledger table */}
-        <div className="overflow-x-auto rounded-xl border border-white/10 bg-black/40">
+        <div className="overflow-x-auto rounded-xl border border-zinc-800 bg-black/40">
           <table className="w-full text-left border-collapse" id="ledger-history-table">
             <thead>
-              <tr className="bg-white/5 text-[9px] text-white/40 uppercase tracking-widest font-mono border-b border-white/10">
-                <th className="px-5 py-3">Category</th>
-                <th className="px-5 py-3">Log Entry Detail</th>
-                <th className="px-5 py-3">Emissions Impact (kg CO2e/yr)</th>
-                <th className="px-5 py-3">Logged Date</th>
-                <th className="px-5 py-3 text-right">Actions</th>
+              <tr className="bg-white/5 text-[9px] text-zinc-400 uppercase tracking-widest font-mono border-b border-zinc-800">
+                <th scope="col" className="px-5 py-3">Category</th>
+                <th scope="col" className="px-5 py-3">Log Entry Detail</th>
+                <th scope="col" className="px-5 py-3">Emissions Impact (kg CO2e/yr)</th>
+                <th scope="col" className="px-5 py-3">Logged Date</th>
+                <th scope="col" className="px-5 py-3 text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
               {logs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-white/40 text-xs font-mono">
+                  <td colSpan={5} className="py-8 text-center text-zinc-400 text-xs font-mono">
                     Your footprint ledger is currently blank. Standardize parameters using the calculator tab.
                   </td>
                 </tr>
@@ -454,12 +463,12 @@ export default function OverviewDashboard({
                 logs.map((log) => {
                   const isOffset = log.isOffset;
                   return (
-                    <tr key={log.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors text-xs text-white/80">
+                    <tr key={log.id} className="border-b border-zinc-900 hover:bg-white/[0.02] transition-colors text-xs text-zinc-300">
                       <td className="px-5 py-3.5">
                         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[9px] font-mono font-bold uppercase ${
                           log.category === "transport" ? "bg-amber-400/10 text-amber-400 border border-amber-400/20" :
-                          log.category === "energy" ? "bg-sky-450/10 text-sky-400 border border-sky-400/20" :
-                          log.category === "diet" ? "bg-rose-400/10 text-rose-450 border border-rose-400/20" :
+                          log.category === "energy" ? "bg-sky-500/10 text-sky-400 border border-sky-500/20" :
+                          log.category === "diet" ? "bg-rose-500/10 text-rose-400 border border-rose-500/20" :
                           "bg-[#C4FF00]/10 text-[#C4FF00] border border-[#C4FF00]/20"
                         }`}>
                           <span className={`w-1.5 h-1.5 rounded-full ${
@@ -476,17 +485,17 @@ export default function OverviewDashboard({
                       </td>
                       <td className="px-5 py-3.5 font-mono">
                         <span className={isOffset ? "text-[#C4FF00]" : "text-white"}>
-                          {isOffset ? "-" : ""}{log.value.toFixed(1)}
+                          {isOffset ? "-" : ""}{log.value.toLocaleString()}
                         </span>
                       </td>
-                      <td className="px-5 py-3.5 text-white/40 font-mono text-[10px]">
+                      <td className="px-5 py-3.5 text-zinc-400 font-mono text-[10px]">
                         {new Date(log.date).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}
                       </td>
                       <td className="px-5 py-3.5 text-right">
                         <button
                           onClick={() => onDeleteLog(log.id)}
                           aria-label={`Delete ledger item ${log.name}`}
-                          className="text-white/40 hover:text-red-400 p-1.5 rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+                          className="text-zinc-500 hover:text-red-400 p-1.5 rounded-lg hover:bg-white/5 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00]"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

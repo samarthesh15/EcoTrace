@@ -165,24 +165,25 @@ export default function CarbonCalculator({
       {/* Sliders adjustments right */}
       <div className="lg:col-span-8 space-y-6">
         {/* Category 1: Transport */}
-        <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-white/10" id="calculator-category-transport">
-          <div className="flex justify-between items-start mb-6 border-b border-white/5 pb-4">
+        <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-zinc-800" id="calculator-category-transport">
+          <div className="flex justify-between items-start mb-6 border-b border-zinc-850 pb-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-amber-400/10 text-amber-400 flex items-center justify-center shrink-0 border border-amber-400/10">
                 <Car className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="text-md font-serif italic text-white tracking-wide font-semibold">Transport Emissions</h3>
-                <p className="text-xs text-white/45 font-mono uppercase tracking-wider">Vehicle commutes, transits and airline schedules</p>
+                <p className="text-xs text-zinc-400 font-mono uppercase tracking-wider">Vehicle commutes, transits and airline schedules</p>
               </div>
             </div>
             <button
               onClick={() => handleSaveSubCategory("transport")}
-              className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-lg flex items-center gap-1.5 cursor-pointer transition-all ${
+              className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-lg flex items-center gap-1.5 cursor-pointer transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A] ${
                 savedCategories["transport"] 
                   ? "bg-[#C4FF00] text-black" 
-                  : "bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border border-white/10"
+                  : "bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/10"
               }`}
+              aria-label="Sync transport metrics to main footprint ledger"
             >
               {savedCategories["transport"] ? <Check className="w-3.5 h-3.5" /> : <Save className="w-3.5 h-3.5 text-[#C4FF00]" />}
               {savedCategories["transport"] ? "Synced" : "Sync Profile"}
@@ -192,35 +193,36 @@ export default function CarbonCalculator({
           <div className="space-y-6">
             {/* Solo Car KM Slider */}
             <div>
-              <div className="flex justify-between text-xs text-white/75 mb-2 font-mono">
+              <label htmlFor="car-commute-slider" className="flex justify-between text-xs text-zinc-300 mb-2 font-mono cursor-pointer">
                 <span>Personal Car Driving: <strong className="text-white text-sm font-sans">{carKm} km</strong> / week</span>
-                <span className="text-white/40">Emits ~{(carKm * 52 * (carFuelType === "petrol" ? 0.21 : carFuelType === "diesel" ? 0.19 : carFuelType === "hybrid" ? 0.11 : 0.05)).toFixed(0)} kg</span>
-              </div>
+                <span className="text-zinc-450">Emits ~{(carKm * 52 * (carFuelType === "petrol" ? 0.21 : carFuelType === "diesel" ? 0.19 : carFuelType === "hybrid" ? 0.11 : 0.05)).toFixed(0)} kg</span>
+              </label>
               <input 
                 type="range" 
                 min="0" 
                 max="800" 
                 value={carKm} 
                 onChange={(e) => setCarKm(Number(e.target.value))}
-                className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#C4FF00]"
-                id="car-km-slider"
+                className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#C4FF00] focus:outline-none focus:ring-2 focus:ring-[#C4FF00]"
+                id="car-commute-slider"
               />
             </div>
 
             {/* Car Fuel Type selects */}
             {carKm > 0 && (
               <div>
-                <span className="block text-xs text-white/50 mb-2 font-mono uppercase tracking-wider">Engine/Fuel Selection:</span>
+                <span className="block text-xs text-zinc-400 mb-2 font-mono uppercase tracking-wider">Engine/Fuel Selection:</span>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
                   {["petrol", "diesel", "hybrid", "electric"].map((fuel) => (
                     <button
                       key={fuel}
                       type="button"
                       onClick={() => setCarFuelType(fuel as any)}
-                      className={`text-center py-2 px-3 border rounded-lg capitalize cursor-pointer transition-all font-bold ${
+                      aria-pressed={carFuelType === fuel}
+                      className={`text-center py-2 px-3 border rounded-lg capitalize cursor-pointer transition-all font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] ${
                         carFuelType === fuel 
                           ? "bg-[#C4FF00] border-transparent text-black" 
-                          : "bg-[#050505] border-white/10 hover:border-white/30 text-white/50 hover:text-white"
+                          : "bg-[#050505] border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-white"
                       }`}
                     >
                       {fuel}
@@ -232,57 +234,60 @@ export default function CarbonCalculator({
 
             {/* Public Transit use */}
             <div>
-              <div className="flex justify-between text-xs text-white/75 mb-2 font-mono">
+              <label htmlFor="transit-use-slider" className="flex justify-between text-xs text-zinc-300 mb-2 font-mono cursor-pointer">
                 <span>Public Transit (Bus, Train): <strong className="text-white text-sm font-sans">{transitKm} km</strong> / week</span>
-                <span className="text-white/40">Emits ~{(transitKm * 52 * 0.04).toFixed(0)} kg</span>
-              </div>
+                <span className="text-zinc-450">Emits ~{(transitKm * 52 * 0.04).toFixed(0)} kg</span>
+              </label>
               <input 
                 type="range" 
                 min="0" 
                 max="500" 
                 value={transitKm} 
                 onChange={(e) => setTransitKm(Number(e.target.value))}
-                className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#C4FF00]"
+                className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#C4FF00] focus:outline-none focus:ring-2 focus:ring-[#C4FF00]"
+                id="transit-use-slider"
               />
             </div>
 
             {/* Annual flight numbers */}
             <div>
-              <div className="flex justify-between text-xs text-white/75 mb-2 font-mono">
-                <span>airline flights schedule: <strong className="text-white text-sm font-sans">{flightsPerYear} flights</strong> / year</span>
-                <span className="text-white/40">Emits ~{(flightsPerYear * 650).toLocaleString()} kg</span>
-              </div>
+              <label htmlFor="flights-schedule-slider" className="flex justify-between text-xs text-zinc-300 mb-2 font-mono cursor-pointer">
+                <span>Airline flights schedule: <strong className="text-white text-sm font-sans">{flightsPerYear} flights</strong> / year</span>
+                <span className="text-zinc-450">Emits ~{(flightsPerYear * 650).toLocaleString()} kg</span>
+              </label>
               <input 
                 type="range" 
                 min="0" 
                 max="15" 
                 value={flightsPerYear} 
                 onChange={(e) => setFlightsPerYear(Number(e.target.value))}
-                className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#C4FF00]"
+                className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#C4FF00] focus:outline-none focus:ring-2 focus:ring-[#C4FF00]"
+                id="flights-schedule-slider"
               />
             </div>
           </div>
         </div>
 
         {/* Category 2: Utilities & Home Energy */}
-        <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-white/10" id="calculator-category-energy">
-          <div className="flex justify-between items-start mb-6 border-b border-white/5 pb-4">
+        <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-zinc-800" id="calculator-category-energy">
+          <div className="flex justify-between items-start mb-6 border-b border-zinc-850 pb-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-sky-400/10 text-sky-400 flex items-center justify-center shrink-0 border border-sky-400/10">
                 <Flame className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="text-md font-serif italic text-white tracking-wide font-semibold">Utilities & Home Energy</h3>
-                <p className="text-xs text-white/45 font-mono uppercase tracking-wider">Electric consumption, boiler utility, heating source & offsets</p>
+                <p className="text-xs text-zinc-400 font-mono uppercase tracking-wider">Electric consumption, boiler utility, heating source & offsets</p>
               </div>
             </div>
             <button
               onClick={() => handleSaveSubCategory("energy")}
-              className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-lg flex items-center gap-1.5 cursor-pointer transition-all ${
+              className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-lg flex items-center gap-1.5 cursor-pointer transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A] ${
                 savedCategories["energy"] 
                   ? "bg-[#C4FF00] text-black" 
-                  : "bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border border-white/10"
+                  : "bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/10"
               }`}
+              aria-label="Sync energy metrics to main footprint ledger"
             >
               {savedCategories["energy"] ? <Check className="w-3.5 h-3.5" /> : <Save className="w-3.5 h-3.5 text-[#C4FF00]" />}
               {savedCategories["energy"] ? "Synced" : "Sync Profile"}
@@ -292,73 +297,77 @@ export default function CarbonCalculator({
           <div className="space-y-6">
             {/* Electricity cost */}
             <div>
-              <div className="flex justify-between text-xs text-white/75 mb-2 font-mono">
+              <label htmlFor="electricity-volume-slider" className="flex justify-between text-xs text-zinc-300 mb-2 font-mono cursor-pointer">
                 <span>Electricity consumption volume: <strong className="text-white text-sm font-sans">{electricityKwh} kWh</strong> / month</span>
-                <span className="text-white/40">Base Impact: ~{(electricityKwh * 12 * 0.42).toFixed(0)} kg CO2</span>
-              </div>
+                <span className="text-zinc-450">Base Impact: ~{(electricityKwh * 12 * 0.42).toFixed(0)} kg CO2</span>
+              </label>
               <input 
                 type="range" 
                 min="50" 
                 max="1200" 
                 value={electricityKwh} 
                 onChange={(e) => setElectricityKwh(Number(e.target.value))}
-                className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#C4FF00]"
+                className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#C4FF00] focus:outline-none focus:ring-2 focus:ring-[#C4FF00]"
+                id="electricity-volume-slider"
               />
             </div>
 
             {/* Clean Energy offset slider if applicable */}
             <div>
-              <div className="flex justify-between text-xs text-white/75 mb-2 font-mono">
+              <label htmlFor="renewable-share-slider" className="flex justify-between text-xs text-zinc-300 mb-2 font-mono cursor-pointer">
                 <span>Renewable / Solar Energy Share: <strong className="text-white text-sm font-sans">{cleanEnergyRatio}%</strong></span>
                 <span className="text-[#C4FF00] font-sans">Saves -{(electricityKwh * 12 * 0.42 * (cleanEnergyRatio / 100)).toFixed(0)} kg</span>
-              </div>
+              </label>
               <input 
                 type="range" 
                 min="0" 
                 max="100" 
                 value={cleanEnergyRatio} 
                 onChange={(e) => setCleanEnergyRatio(Number(e.target.value))}
-                className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#C4FF00]"
+                className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#C4FF00] focus:outline-none focus:ring-2 focus:ring-[#C4FF00]"
+                id="renewable-share-slider"
               />
             </div>
 
             {/* Natural Gas */}
             <div>
-              <div className="flex justify-between text-xs text-white/75 mb-2 font-mono">
+              <label htmlFor="gas-boiler-slider" className="flex justify-between text-xs text-zinc-300 mb-2 font-mono cursor-pointer">
                 <span>Gas Utility / Boiler consumption: <strong className="text-white text-sm font-sans">{gasKwh} kWh</strong> / month</span>
-                <span className="text-white/40">Emits ~{(gasKwh * 12 * 0.20).toFixed(0)} kg</span>
-              </div>
+                <span className="text-zinc-450">Emits ~{(gasKwh * 12 * 0.20).toFixed(0)} kg</span>
+              </label>
               <input 
                 type="range" 
                 min="0" 
                 max="1000" 
                 value={gasKwh} 
                 onChange={(e) => setGasKwh(Number(e.target.value))}
-                className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#C4FF00]"
+                className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#C4FF00] focus:outline-none focus:ring-2 focus:ring-[#C4FF00]"
+                id="gas-boiler-slider"
               />
             </div>
           </div>
         </div>
 
         {/* Category 3: Diet Preference */}
-        <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-white/10" id="calculator-category-diet">
-          <div className="flex justify-between items-start mb-6 border-b border-white/5 pb-4">
+        <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-zinc-800" id="calculator-category-diet">
+          <div className="flex justify-between items-start mb-6 border-b border-zinc-850 pb-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-rose-450/10 text-rose-400 flex items-center justify-center shrink-0 border border-rose-400/20">
+              <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center shrink-0 border border-rose-455/20">
                 <UtensilsCrossed className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="text-md font-serif italic text-white tracking-wide font-semibold">Food & Nutrition Profiles</h3>
-                <p className="text-xs text-white/45 font-mono uppercase tracking-wider">Agricultural logistics, red meat footprint and production factors</p>
+                <p className="text-xs text-zinc-400 font-mono uppercase tracking-wider">Agricultural logistics, red meat footprint and production factors</p>
               </div>
             </div>
             <button
               onClick={() => handleSaveSubCategory("diet")}
-              className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-lg flex items-center gap-1.5 cursor-pointer transition-all ${
+              className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-lg flex items-center gap-1.5 cursor-pointer transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A] ${
                 savedCategories["diet"] 
                   ? "bg-[#C4FF00] text-black" 
-                  : "bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border border-white/10"
+                  : "bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/10"
               }`}
+              aria-label="Sync diet metrics to main footprint ledger"
             >
               {savedCategories["diet"] ? <Check className="w-3.5 h-3.5" /> : <Save className="w-3.5 h-3.5 text-[#C4FF00]" />}
               {savedCategories["diet"] ? "Synced" : "Sync Profile"}
@@ -366,15 +375,16 @@ export default function CarbonCalculator({
           </div>
 
           <div>
-            <span className="block text-xs text-white/50 mb-3 font-mono uppercase tracking-wider">Choose food profile tier:</span>
+            <span className="block text-xs text-zinc-400 mb-3 font-mono uppercase tracking-wider">Choose food profile tier:</span>
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
               <button
                 type="button"
                 onClick={() => setMeatConsumption("heavy-red")}
-                className={`text-left p-4.5 border rounded-xl flex flex-col justify-between cursor-pointer transition-all ${
+                aria-pressed={meatConsumption === "heavy-red"}
+                className={`text-left p-4.5 border rounded-xl flex flex-col justify-between cursor-pointer transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] ${
                   meatConsumption === "heavy-red" 
                     ? "bg-[#C4FF00] border-transparent text-black" 
-                    : "bg-[#050505] border-white/10 hover:border-white/30 text-white/60 hover:text-white"
+                    : "bg-[#050505] border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-white"
                 }`}
               >
                 <div>
@@ -387,10 +397,11 @@ export default function CarbonCalculator({
               <button
                 type="button"
                 onClick={() => setMeatConsumption("balanced")}
-                className={`text-left p-4.5 border rounded-xl flex flex-col justify-between cursor-pointer transition-all ${
+                aria-pressed={meatConsumption === "balanced"}
+                className={`text-left p-4.5 border rounded-xl flex flex-col justify-between cursor-pointer transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] ${
                   meatConsumption === "balanced" 
                     ? "bg-[#C4FF00] border-transparent text-black" 
-                    : "bg-[#050505] border-white/10 hover:border-white/30 text-white/60 hover:text-white"
+                    : "bg-[#050505] border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-white"
                 }`}
               >
                 <div>
@@ -403,10 +414,11 @@ export default function CarbonCalculator({
               <button
                 type="button"
                 onClick={() => setMeatConsumption("vegetarian")}
-                className={`text-left p-4.5 border rounded-xl flex flex-col justify-between cursor-pointer transition-all ${
+                aria-pressed={meatConsumption === "vegetarian"}
+                className={`text-left p-4.5 border rounded-xl flex flex-col justify-between cursor-pointer transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] ${
                   meatConsumption === "vegetarian" 
                     ? "bg-[#C4FF00] border-transparent text-black" 
-                    : "bg-[#050505] border-white/10 hover:border-white/30 text-white/60 hover:text-white"
+                    : "bg-[#050505] border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-white"
                 }`}
               >
                 <div>
@@ -419,10 +431,11 @@ export default function CarbonCalculator({
               <button
                 type="button"
                 onClick={() => setMeatConsumption("vegan")}
-                className={`text-left p-4.5 border rounded-xl flex flex-col justify-between cursor-pointer transition-all ${
+                aria-pressed={meatConsumption === "vegan"}
+                className={`text-left p-4.5 border rounded-xl flex flex-col justify-between cursor-pointer transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] ${
                   meatConsumption === "vegan" 
                     ? "bg-[#C4FF00] border-transparent text-black" 
-                    : "bg-[#050505] border-white/10 hover:border-white/30 text-white/60 hover:text-white"
+                    : "bg-[#050505] border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-white"
                 }`}
               >
                 <div>
@@ -436,24 +449,25 @@ export default function CarbonCalculator({
         </div>
 
         {/* Category 4: Lifestyle Consumerism */}
-        <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-white/10" id="calculator-category-lifestyle">
-          <div className="flex justify-between items-start mb-6 border-b border-white/5 pb-4">
+        <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-zinc-800" id="calculator-category-lifestyle">
+          <div className="flex justify-between items-start mb-6 border-b border-zinc-850 pb-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-[#C4FF00]/10 text-[#C4FF00] flex items-center justify-center shrink-0 border border-[#C4FF00]/20">
                 <ShoppingBag className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="text-md font-serif italic text-white tracking-wide font-semibold">Consumer Lifestyle</h3>
-                <p className="text-xs text-white/45 font-mono uppercase tracking-wider">Purchase ratios, heavy spending and waste recycling metrics</p>
+                <p className="text-xs text-zinc-400 font-mono uppercase tracking-wider">Purchase ratios, heavy spending and waste recycling metrics</p>
               </div>
             </div>
             <button
               onClick={() => handleSaveSubCategory("lifestyle")}
-              className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-lg flex items-center gap-1.5 cursor-pointer transition-all ${
+              className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-lg flex items-center gap-1.5 cursor-pointer transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A] ${
                 savedCategories["lifestyle"] 
                   ? "bg-[#C4FF00] text-black" 
-                  : "bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border border-white/10"
+                  : "bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/10"
               }`}
+              aria-label="Sync consumer metrics to main footprint ledger"
             >
               {savedCategories["lifestyle"] ? <Check className="w-3.5 h-3.5" /> : <Save className="w-3.5 h-3.5 text-[#C4FF00]" />}
               {savedCategories["lifestyle"] ? "Synced" : "Sync Profile"}
@@ -463,17 +477,18 @@ export default function CarbonCalculator({
           <div className="space-y-6">
             {/* Purchase tier selection */}
             <div>
-              <span className="block text-xs text-white/50 mb-2 font-mono uppercase tracking-wider">Monthly Shopping & Retail intensity:</span>
+              <span className="block text-xs text-zinc-400 mb-2 font-mono uppercase tracking-wider">Monthly Shopping & Retail intensity:</span>
               <div className="grid grid-cols-3 gap-2.5 text-xs font-mono">
                 {["minimalist", "average", "enthusiast"].map((tier) => (
                   <button
                     key={tier}
                     type="button"
                     onClick={() => setShoppingTier(tier as any)}
-                    className={`text-center py-2.5 px-3 border rounded-lg capitalize cursor-pointer font-bold transition-all ${
+                    aria-pressed={shoppingTier === tier}
+                    className={`text-center py-2.5 px-3 border rounded-lg capitalize cursor-pointer font-bold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] ${
                       shoppingTier === tier 
                         ? "bg-[#C4FF00] border-transparent text-black" 
-                        : "bg-[#050505] border-white/10 hover:border-white/30 text-white/60 hover:text-white"
+                        : "bg-[#050505] border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-white"
                     }`}
                   >
                     {tier === "minimalist" ? "Minimalist" : tier === "average" ? "Modest" : "High Spender"}
@@ -484,17 +499,18 @@ export default function CarbonCalculator({
 
             {/* Recycling metrics */}
             <div>
-              <div className="flex justify-between text-xs text-white/75 mb-2 font-mono">
+              <label htmlFor="domestic-recycling-slider" className="flex justify-between text-xs text-zinc-300 mb-2 font-mono cursor-pointer">
                 <span>Household Recycling & Circularity: <strong className="text-white text-sm font-sans">{recycleRatio}%</strong></span>
                 <span className="text-[#C4FF00]">Saves -{Math.round((shoppingTier === "minimalist" ? 800 : shoppingTier === "average" ? 1600 : 3400) * (recycleRatio / 100) * 0.15)} kg</span>
-              </div>
+              </label>
               <input 
                 type="range" 
                 min="0" 
                 max="100" 
                 value={recycleRatio} 
                 onChange={(e) => setRecycleRatio(Number(e.target.value))}
-                className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#C4FF00]"
+                className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#C4FF00] focus:outline-none focus:ring-2 focus:ring-[#C4FF00]"
+                id="domestic-recycling-slider"
               />
             </div>
           </div>

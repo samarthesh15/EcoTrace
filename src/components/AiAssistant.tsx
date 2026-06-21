@@ -77,11 +77,11 @@ export default function AiAssistant({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Search controls Left */}
         <div className="lg:col-span-12 xl:col-span-5 space-y-6">
-          <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-white/10 relative overflow-hidden">
+          <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-zinc-800 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#C4FF00]/5 rounded-full blur-2xl pointer-events-none" />
             <span className="text-[10px] font-bold uppercase tracking-widest text-[#C4FF00]/80 block mb-1.5 font-mono">Dynamic AI Modeling</span>
             <h2 className="text-xl font-serif italic text-white tracking-wide font-semibold">Footprint Sandbox</h2>
-            <p className="text-xs text-white/50 mt-2 leading-relaxed">
+            <p className="text-xs text-zinc-300 mt-2 leading-relaxed">
               Describe any item, product, device lifecycle, shipping timeline, or recipe. Gemini will instantly trace and compute its greenhouse coefficient.
             </p>
 
@@ -93,22 +93,23 @@ export default function AiAssistant({
               className="mt-6 space-y-4"
             >
               <div>
-                <label className="block text-[10px] text-white/40 uppercase font-mono font-bold mb-2 tracking-wider">Action or Item to Analyze</label>
+                <label htmlFor="ai-sandbox-query-input" className="block text-[10px] text-zinc-400 uppercase font-mono font-bold mb-2 tracking-wider">Action or Item to Analyze</label>
                 <div className="relative">
                   <input 
+                    id="ai-sandbox-query-input"
                     type="text" 
                     value={query} 
                     onChange={(e) => setQuery(e.target.value)} 
                     placeholder="e.g. buying 1kg of avocados flown from Peru"
-                    className="w-full bg-[#050505] border border-white/10 hover:border-white/20 text-xs pl-10 pr-4 py-3 rounded-xl focus:border-[#C4FF00]/60 outline-hidden font-sans text-white transition-colors"
+                    className="w-full bg-[#050505] border border-zinc-800 hover:border-zinc-700 text-xs pl-10 pr-4 py-3 rounded-xl focus:border-[#C4FF00]/65 focus:ring-1 focus:ring-[#C4FF00]/65 outline-hidden font-sans text-white transition-colors"
                     required
                   />
-                  <Search className="w-4 h-4 text-white/45 absolute left-3.5 top-3.5" />
+                  <Search className="w-4 h-4 text-zinc-400 absolute left-3.5 top-3.5" />
                 </div>
               </div>
 
               <div>
-                <span className="block text-[10px] text-white/40 uppercase font-mono font-bold mb-2 tracking-wider">Likeliest Category</span>
+                <span className="block text-[10px] text-zinc-400 uppercase font-mono font-bold mb-2 tracking-wider">Likeliest Category</span>
                 <div className="grid grid-cols-2 gap-2 text-xs font-mono">
                   {[
                     { id: "transport", label: "Mobility" },
@@ -120,10 +121,11 @@ export default function AiAssistant({
                       key={category.id}
                       type="button"
                       onClick={() => setActiveCategory(category.id as any)}
-                      className={`text-left py-2 px-3 border rounded-lg transition-all font-bold cursor-pointer ${
+                      aria-pressed={activeCategory === category.id}
+                      className={`text-left py-2 px-3 border rounded-lg transition-all font-bold cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] ${
                         activeCategory === category.id 
                           ? "bg-[#C4FF00] border-transparent text-black" 
-                          : "bg-[#050505] border-white/10 hover:border-white/30 text-white/50 hover:text-white"
+                          : "bg-[#050505] border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-white"
                       }`}
                     >
                       {category.label}
@@ -152,8 +154,8 @@ export default function AiAssistant({
             </form>
           </div>
 
-          <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-white/10">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-white/40 block mb-3 font-mono">Popular Estimations</span>
+          <div className="bg-[#0A0A0A] p-6 rounded-2xl border border-zinc-800">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 block mb-3 font-mono">Popular Estimations</span>
             <div className="space-y-2 font-mono">
               {PRESET_QUERIES.map((preset, index) => (
                 <button
@@ -163,7 +165,7 @@ export default function AiAssistant({
                     setQuery(preset);
                     handleQueryEstimator(preset);
                   }}
-                  className="w-full text-left text-xs text-white/60 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 py-2.5 px-3.5 rounded-lg transition-colors cursor-pointer block truncate"
+                  className="w-full text-left text-xs text-zinc-300 hover:text-white bg-white/5 hover:bg-white/10 border border-zinc-850 py-2.5 px-3.5 rounded-lg transition-colors cursor-pointer block truncate focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C4FF00] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 >
                   {preset}
                 </button>
@@ -175,13 +177,13 @@ export default function AiAssistant({
         {/* Results Pane Right */}
         <div className="lg:col-span-12 xl:col-span-7">
           {loading ? (
-            <div className="h-full bg-[#0A0A0A] border border-white/10 rounded-3xl p-10 flex flex-col items-center justify-center text-center min-h-[400px]">
+            <div className="h-full bg-[#0A0A0A] border border-zinc-800 rounded-3xl p-10 flex flex-col items-center justify-center text-center min-h-[400px]">
               <Loader2 className="w-12 h-12 text-[#C4FF00] animate-spin mb-4" />
               <h2 className="text-xl font-serif italic text-white mb-2">Analyzing Environmental Physics...</h2>
-              <p className="text-xs text-white/50 max-w-sm mt-1 mb-8 leading-relaxed font-sans">
+              <p className="text-xs text-zinc-300 max-w-sm mt-1 mb-8 leading-relaxed font-sans">
                 Gemini is tracing structural supply chains, logistical footprints, and agricultural scopes to estimate total greenhouse impacts.
               </p>
-              <div className="w-full max-w-sm bg-white/5 border border-white/10 p-5 rounded-2xl text-left space-y-2 text-xs text-white/60 font-mono">
+              <div className="w-full max-w-sm bg-white/5 border border-zinc-850 p-5 rounded-2xl text-left space-y-2 text-xs text-zinc-300 font-mono">
                 <span className="text-[10px] font-bold text-[#C4FF00] block uppercase tracking-wider">Did You Know?</span>
                 <p className="leading-relaxed">
                   Shipping goods by cargo ship has ~10-20 times lower CO2 emissions per ton-kilometer compared to air freight, making localized buying crucial.
@@ -203,7 +205,7 @@ export default function AiAssistant({
               </button>
             </div>
           ) : estimateResult ? (
-            <div className="bg-[#0A0A0A] border border-white/10 rounded-3xl p-6.5 space-y-6 relative overflow-hidden" id="ai-estimate-result-card">
+            <div className="bg-[#0A0A0A] border border-zinc-800 rounded-3xl p-6.5 space-y-6 relative overflow-hidden" id="ai-estimate-result-card">
               {/* Highlight ribbon based on category */}
               <div className={`absolute top-0 left-0 right-0 h-1 ${
                 estimateResult.category === "transport" ? "bg-amber-400" :
@@ -214,23 +216,23 @@ export default function AiAssistant({
 
               <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4">
                 <div>
-                  <span className="text-[9px] font-mono font-bold text-white/40 uppercase tracking-widest block font-bold">Estimated Item:</span>
+                  <span className="text-[9px] font-mono font-bold text-zinc-400 uppercase tracking-widest block">Estimated Item:</span>
                   <h3 className="text-lg font-serif italic text-white mt-1 first-letter:capitalize font-semibold tracking-wide">
                     {estimateResult.name}
                   </h3>
                 </div>
 
                 <div className="flex flex-col sm:items-end shrink-0">
-                  <span className="text-[9px] font-mono font-bold text-white/40 uppercase tracking-widest">Carbon footprint:</span>
+                  <span className="text-[9px] font-mono font-bold text-zinc-400 uppercase tracking-widest">Carbon footprint:</span>
                   <span className="text-3xl font-mono font-black text-[#C4FF00] mt-1">
-                    {estimateResult.estimatedCo2.toLocaleString()} <span className="text-xs text-white/60 font-sans font-medium">kg CO2e</span>
+                    {estimateResult.estimatedCo2.toLocaleString()} <span className="text-xs text-zinc-300 font-sans font-medium">kg CO2e</span>
                   </span>
                 </div>
               </div>
 
               {/* Confidence factor */}
               <div>
-                <div className="flex justify-between items-center text-xs text-white/50 mb-1.5 font-mono uppercase tracking-wider text-[9px]">
+                <div className="flex justify-between items-center text-xs text-zinc-400 mb-1.5 font-mono uppercase tracking-wider text-[9px] font-bold">
                   <span>Confidence Level:</span>
                   <span className="font-mono font-bold text-[#C4FF00]">{Math.round(estimateResult.confidence * 100)}%</span>
                 </div>
@@ -243,9 +245,9 @@ export default function AiAssistant({
               </div>
 
               {/* Scientific explanation */}
-              <div className="bg-[#050505] border border-white/10 rounded-2xl p-4.5 space-y-1.5">
-                <span className="text-[9px] font-mono font-bold text-white/40 block uppercase tracking-widest">Genesis calculation trace</span>
-                <p className="text-xs text-white/70 leading-relaxed font-sans font-normal">
+              <div className="bg-[#050505] border border-zinc-850 rounded-2xl p-4.5 space-y-1.5">
+                <span className="text-[9px] font-mono font-bold text-zinc-400 block uppercase tracking-widest">Genesis calculation trace</span>
+                <p className="text-xs text-zinc-300 leading-relaxed font-sans font-normal">
                   {estimateResult.explanation}
                 </p>
               </div>
@@ -271,15 +273,15 @@ export default function AiAssistant({
               </div>
 
               {/* Action insertion footer */}
-              <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row gap-4 justify-between items-center text-xs">
-                <p className="text-white/40 font-mono text-[10px] leading-relaxed text-center sm:text-left uppercase tracking-wide">
+              <div className="pt-4 border-t border-zinc-850 flex flex-col sm:flex-row gap-4 justify-between items-center text-xs">
+                <p className="text-zinc-400 font-mono text-[10px] leading-relaxed text-center sm:text-left uppercase tracking-widest font-black">
                   insert this physical element directly to keep ledger records correct
                 </p>
 
                 <button
                   onClick={handleLogToLedger}
                   disabled={savedToLedger}
-                  className={`px-4.5 py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider shrink-0 cursor-pointer flex items-center gap-1.5 transition-all ${
+                  className={`px-4.5 py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider shrink-0 cursor-pointer flex items-center gap-1.5 transition-all focus:outline-none focus:ring-2 focus:ring-amber-450 ${
                     savedToLedger 
                       ? "bg-[#C4FF00]/10 text-[#C4FF00] border border-[#C4FF00]/25" 
                       : "bg-[#C4FF00] hover:bg-white text-black shadow-xs"
@@ -300,10 +302,10 @@ export default function AiAssistant({
               </div>
             </div>
           ) : (
-            <div className="h-full bg-[#0A0A0A]/30 border border-white/10 border-dashed rounded-3xl p-10 flex flex-col items-center justify-center text-center py-24 min-h-[400px]">
-              <Sparkles className="w-12 h-12 text-[#C4FF00]/40 mb-4 animate-pulse animate-duration-1000" />
+            <div className="h-full bg-[#0A0A0A]/30 border border-zinc-800 border-dashed rounded-3xl p-10 flex flex-col items-center justify-center text-center py-24 min-h-[400px]">
+              <Sparkles className="w-12 h-12 text-[#C4FF00]/40 mb-4 animate-pulse" />
               <h2 className="text-lg font-serif italic text-white tracking-wide font-semibold">Estimation Sandbox</h2>
-              <p className="text-xs text-white/45 max-w-sm mt-1.5 leading-relaxed font-sans">
+              <p className="text-xs text-zinc-300 max-w-sm mt-1.5 leading-relaxed font-sans">
                 Select a popular carbon estimation query from the left list or type your own custom scenario to run Gemini environmental footprint diagnostics.
               </p>
             </div>
