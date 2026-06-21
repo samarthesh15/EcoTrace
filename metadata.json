@@ -1,0 +1,6 @@
+{
+  "name": "EcoTrace",
+  "description": "Understand, track, and reduce your carbon footprint with interactive estimators, habit logs, and personalized Gemini AI insights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
